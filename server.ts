@@ -7,7 +7,7 @@ dotenv.config();
 
 async function startServer() {
   const app = express();
-  const PORT = 3000;
+  const PORT = process.env.PORT || 3000;
 
   app.use(express.json());
 
@@ -15,7 +15,7 @@ async function startServer() {
   app.get('/api/auth/url', (req, res) => {
     const appUrl = process.env.APP_URL || `http://localhost:${PORT}`;
     const redirectUri = `${appUrl}/auth/callback`;
-    
+
     const params = new URLSearchParams({
       client_id: process.env.GOOGLE_CLIENT_ID || '',
       redirect_uri: redirectUri,
@@ -50,7 +50,7 @@ async function startServer() {
     try {
       const appUrl = process.env.APP_URL || `http://localhost:${PORT}`;
       const redirectUri = `${appUrl}/auth/callback`;
-      
+
       // Exchange code for token
       const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
         method: 'POST',
